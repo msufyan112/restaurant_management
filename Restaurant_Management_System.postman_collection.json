@@ -1,0 +1,559 @@
+{
+  "info": {
+    "name": "Task 3 — Restaurant Management System",
+    "description": "Full API collection for the Restaurant Management System built with Django REST Framework & JWT Authentication.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refresh_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "👤 Auth",
+      "item": [
+        {
+          "name": "Register — Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/users/register/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "register", ""]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"john_customer\",\n  \"email\": \"john@example.com\",\n  \"password\": \"StrongPass123!\",\n  \"password2\": \"StrongPass123!\",\n  \"role\": \"customer\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Register — Staff",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/users/register/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "register", ""]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"sara_staff\",\n  \"email\": \"sara@example.com\",\n  \"password\": \"StrongPass123!\",\n  \"password2\": \"StrongPass123!\",\n  \"role\": \"staff\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Register — Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/users/register/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "register", ""]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin_user\",\n  \"email\": \"admin@example.com\",\n  \"password\": \"StrongPass123!\",\n  \"password2\": \"StrongPass123!\",\n  \"role\": \"admin\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var json = pm.response.json();",
+                  "pm.collectionVariables.set('access_token', json.access);",
+                  "pm.collectionVariables.set('refresh_token', json.refresh);",
+                  "console.log('Access token saved!');"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/users/login/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "login", ""]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"sara_staff\",\n  \"password\": \"StrongPass123!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/users/token/refresh/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "token", "refresh", ""]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh\": \"{{refresh_token}}\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/users/profile/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "profile", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🍔 Menu",
+      "item": [
+        {
+          "name": "List All Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/menu/categories/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "menu", "categories", ""]
+            }
+          }
+        },
+        {
+          "name": "Create Category (Staff Only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/menu/categories/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "menu", "categories", ""]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Main Course\",\n  \"description\": \"Hearty main dishes\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List All Menu Items",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/menu/items/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "menu", "items", ""]
+            }
+          }
+        },
+        {
+          "name": "Filter Menu by Category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/menu/items/?category=1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "menu", "items", ""],
+              "query": [
+                { "key": "category", "value": "1" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter Available Items Only",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/menu/items/?available=true",
+              "host": ["{{base_url}}"],
+              "path": ["api", "menu", "items", ""],
+              "query": [
+                { "key": "available", "value": "true" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Menu Item (Staff Only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/menu/items/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "menu", "items", ""]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Grilled Chicken\",\n  \"description\": \"Juicy grilled chicken with herbs\",\n  \"price\": \"12.99\",\n  \"category\": 1,\n  \"is_available\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Menu Item Detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/menu/items/1/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "menu", "items", "1", ""]
+            }
+          }
+        },
+        {
+          "name": "Update Menu Item (Staff Only)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/menu/items/1/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "menu", "items", "1", ""]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": \"14.99\",\n  \"is_available\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Menu Item (Staff Only)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/menu/items/1/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "menu", "items", "1", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🪑 Tables & Reservations",
+      "item": [
+        {
+          "name": "List All Tables",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/tables/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "tables", ""]
+            }
+          }
+        },
+        {
+          "name": "Create Table (Staff Only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tables/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "tables", ""]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": 1,\n  \"capacity\": 4,\n  \"status\": \"available\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List All Reservations",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tables/reservations/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "tables", "reservations", ""]
+            }
+          }
+        },
+        {
+          "name": "Make a Reservation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tables/reservations/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "tables", "reservations", ""]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"table\": 1,\n  \"customer_name\": \"Ahmed Khan\",\n  \"phone\": \"03001234567\",\n  \"guests\": 3,\n  \"date\": \"2026-07-15\",\n  \"time\": \"19:00:00\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Cancel Reservation",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tables/reservations/1/cancel/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "tables", "reservations", "1", "cancel", ""]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🧾 Orders",
+      "item": [
+        {
+          "name": "Place Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "orders", ""]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"table\": 1,\n  \"order_items\": [\n    {\n      \"menu_item\": 1,\n      \"quantity\": 2\n    },\n    {\n      \"menu_item\": 2,\n      \"quantity\": 1\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "List All Orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "orders", ""]
+            }
+          }
+        },
+        {
+          "name": "Get Order Detail",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/1/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "orders", "1", ""]
+            }
+          }
+        },
+        {
+          "name": "Update Order Status (Staff Only)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/1/status/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "orders", "1", "status", ""]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"preparing\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Mark Order as Served",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/1/status/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "orders", "1", "status", ""]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"served\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Mark Order as Paid",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/1/status/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "orders", "1", "status", ""]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"paid\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📦 Inventory",
+      "item": [
+        {
+          "name": "List All Inventory",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/inventory/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "inventory", ""]
+            }
+          }
+        },
+        {
+          "name": "Add Inventory Item (Staff Only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/inventory/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "inventory", ""]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Chicken Breast\",\n  \"quantity\": \"50.00\",\n  \"unit\": \"kg\",\n  \"low_stock_threshold\": \"10.00\",\n  \"linked_menu_item\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Restock Inventory Item",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/inventory/1/restock/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "inventory", "1", "restock", ""]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": \"25.00\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Low Stock Alerts",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/inventory/alerts/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "inventory", "alerts", ""]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
